@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Data Fetcher</title>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<h1>Real-Time Data Fetcher</h1>
+<p>Дані оновлюються кожні 10 секунд.</p>
+
+<div id="loading-indicator">Loading...</div>
+<div id="data-container"></div>
+
+<script>
+  // Підключаємося до WebSocket сервера
+  const socket = io('http://localhost:3000');  // Порт сервера, де працює WebSocket
+
+  // Функція для форматування дати
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    // Форматуємо дату у локальному часі без корекції
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+
+    const localDateString = date.toLocaleString('uk-UA', options);
+    return localDateString;
+  }
+
+  // Показати індикатор завантаження, коли дані не завантажені
+  function showLoadingIndicator() {
+    document.getElementById('loading-indicator').style.display = 'block';
+  }
+
+  // Приховати індикатор завантаження, коли дані завантажено
+  function hideLoadingIndicator() {
+    document.getElementById('loading-indicator').style.display = 'none';
+  }
+
+  // Функція для оновлення UI новими даними
+  function updateData(data) {
+    const container = document.getElementById('data-container');
+    container.innerHTML = '';  // Очищаємо старі дані
+
+    if (data.length === 0) {
+      showLoadingIndicator(); // Показуємо індикатор, якщо даних немає
+    } else {
+      hideLoadingIndicator(); // Приховуємо індикатор, коли є дані
+      data.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('data-item');
+        div.innerHTML = `
+          <strong>Time:</strong> ${formatDate(item.time)} <br>
+          <strong>diris_ID: </strong>${item.diris_id}<br>
+          <strong>F: </strong>${item.f}<br>
+          <strong>IL1 </strong>${item.i1}<br>
+          <strong>IL2: </strong>${item.i2}<br>
+          <strong>IL3: </strong>${item.i3}<br>
+          <strong>cos f: </strong>${item.pa}<br>
+          <strong>P: </strong>${item.pa_p}<br>
+          <strong>Q: </strong>${item.pa_r}<br>
+          <strong>S: </strong>${item.pa_s}<br>
+          <strong>U12:</strong> ${item.u12} <br>
+          <strong>U23:</strong> ${item.u23} <br>
+          <strong>U31:</strong> ${item.u31}
+        `;
+        container.insertBefore(div, container.firstChild);  // Додаємо нові дані на початок контейнера
+      });
+    }
+  }
+
+  // При завантаженні сторінки показуємо індикатор завантаження
+  showLoadingIndicator();
+
+  // Обробник події для отримання оновлень даних
+  socket.on('dataUpdate', (data) => {
+    console.log('Received data:', data);
+    updateData(data);
+  });
+
+  socket.on('connect', () => {
+    console.log('Connected to WebSocket server');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from WebSocket server');
+  });
+</script>
+
+</body>
+</html>
