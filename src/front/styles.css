@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+#lastUpdate {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    max-width: 1200px; /* Обмежуємо максимальну ширину */
+    overflow-x: auto; /* Додаємо горизонтальну прокрутку, якщо потрібно */
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+.station-header {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+.legend {
+    font-weight: bold;
+}
+.data-cell {
+    background-color: #f4f4f4;
+}
+.legend-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Три стовпці з однаковою шириною */
+    gap: 5px;
+}
+.legend-row > div {
+    padding: 10px;
+    text-align: center;
+}
+.legend-row .legend {
+    font-weight: bold;
+}
+.legend-row .data-cell {
+    background-color: #f4f4f4;
+}
