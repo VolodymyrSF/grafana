@@ -3,12 +3,12 @@ const stationNames = {
   90: 'Великий Любінь',
   91: 'Скнилів'
 };
+let hostname=window.location.hostname
 
 // Функція для форматування дати у вигляді години, хвилини, секунди з урахуванням часового поясу
 function formatTime(dateTime) {
   const date = new Date(dateTime);
-  date.setHours(date.getHours() + 3); // Додаємо 3 години
-
+  date.setHours(date.getHours() ); // Додаємо 3 години
   const options = {
     hour: '2-digit',
     minute: '2-digit',
@@ -21,11 +21,13 @@ function formatTime(dateTime) {
   const seconds = parts.find(part => part.type === 'second').value;
   return `${hours}:${minutes}:${seconds}`;
 }
-
+// Отримання базового URL сервера, на якому завантажено  фронтенд
+// const hostname=window.location.hostname
+// console.log(hostname)
 // Функція для отримання даних з бекенду
 async function fetchLogs() {
   try {
-    const response = await fetch('http://localhost:3000/diris-logs'); // URL до вашого бекенду
+    const response = await fetch(`http://${hostname}:3333/diris-logs`); // URL до вашого бекенду
     const data = await response.json();
     updateTable(data); // Оновлює таблицю тільки з новими даними
     updateLastUpdateTime();
@@ -33,6 +35,7 @@ async function fetchLogs() {
     console.error('Failed to fetch data', error);
   }
 }
+
 
 // Функція для оновлення таблиці з даними
 function updateTable(logs) {
@@ -60,17 +63,17 @@ function updateTable(logs) {
           <td class="data-cell">${formatTime(logs.find(log => log.diris_id === 91)?.time || '')}</td>
         </tr>
         <tr>
-          <td class="legend">P</td>
+          <td class="legend">P, кВт</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.pa_p }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.pa_p }</td>
         </tr>
         <tr>
-          <td class="legend">Q</td>
+          <td class="legend">Q, квар</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.pa_r }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.pa_r }</td>
         </tr>
          <tr>
-          <td class="legend">S</td>
+          <td class="legend">S, кВА</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.pa_s }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.pa_s }</td>
         </tr>
@@ -80,39 +83,39 @@ function updateTable(logs) {
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.pa }</td>
         </tr>
         <tr>
-          <td class="legend">IL1</td>
+          <td class="legend">IL1, А</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.i1 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.i1 }</td>
         </tr>
         <tr>
-          <td class="legend">IL2</td>
+          <td class="legend">IL2, А</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.i2 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.i2 }</td>
         </tr>
         <tr>
-          <td class="legend">IL3</td>
+          <td class="legend">IL3, А</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.i3 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.i3 }</td>
         </tr>
         
         
         <tr>
-          <td class="legend">U12</td>
+          <td class="legend">U12, В</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.u12 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.u12 }</td>
         </tr>
         <tr>
-          <td class="legend">U23</td>
+          <td class="legend">U23, В</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.u23 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.u23 }</td>
         </tr>
         <tr>
-          <td class="legend">U31</td>
+          <td class="legend">U31, В</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.u31 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.u31 }</td>
         </tr>
         <tr>
-          <td class="legend">F</td>
+          <td class="legend">F, Гц</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.f }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.f }</td>
         </tr>
