@@ -9,4 +9,5 @@ export class DirisLogsController {
   getDirisLogs() {
     return this.dirisLogsService.getCachedDirisLogs();
   }
+
 }

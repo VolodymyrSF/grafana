@@ -1,12 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { IdirisType } from '../types/IdirisType';
 
 @Injectable()
-export class DirisLogsService {
+export class DirisLogsService implements OnModuleInit {
   private cachedData: IdirisType[] = [];
 
   constructor(private dataSource: DataSource) {}
+
+  async onModuleInit() {
+    await this.updateDirisLogs();
+
+    setInterval(() => this.updateDirisLogs(), 10000);
+  }
 
   async updateDirisLogs(): Promise<void> {
     const query = `
@@ -31,8 +37,12 @@ export class DirisLogsService {
       ORDER BY diris_time;
     `;
 
-
-    this.cachedData = await this.dataSource.query(query);
+    try {
+      this.cachedData = await this.dataSource.query(query);
+      console.log('Cached Data Updated:', this.cachedData); // Логування нових даних
+    } catch (error) {
+      console.error('Error fetching data from DB:', error);
+    }
   }
 
   getCachedDirisLogs(): IdirisType[] {

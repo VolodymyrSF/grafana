@@ -21,10 +21,7 @@ function formatTime(dateTime) {
   const seconds = parts.find(part => part.type === 'second').value;
   return `${hours}:${minutes}:${seconds}`;
 }
-// Отримання базового URL сервера, на якому завантажено  фронтенд
-// const hostname=window.location.hostname
-// console.log(hostname)
-// Функція для отримання даних з бекенду
+
 async function fetchLogs() {
   try {
     const response = await fetch(`http://${hostname}:3333/diris-logs`); // URL до вашого бекенду
