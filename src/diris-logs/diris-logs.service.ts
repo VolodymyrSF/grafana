@@ -1,11 +1,14 @@
-import { Injectable } from '@nestjs/common'; // Імпорт Injectable з @nestjs/common
-import { DataSource } from 'typeorm'; // Імпорт DataSource з typeorm
+import { Injectable } from '@nestjs/common';
+import { DataSource } from 'typeorm';
+import { IdirisType } from '../types/IdirisType'; // Імпортуємо новий інтерфейс
 
 @Injectable()
 export class DirisLogsService {
+  private cachedData: IdirisType[] = [];  // Використовуємо тип DirisLog для масиву
+
   constructor(private dataSource: DataSource) {}
 
-  async getDirisLogs(): Promise<any> {
+  async updateDirisLogs(): Promise<void> {
     const query = `
       SELECT
         diris_time AS "time",
@@ -23,13 +26,16 @@ export class DirisLogsService {
         u31
       FROM diris_logs
       WHERE
-        diris_id IN (90, 91) 
-        AND diris_time >= NOW() - INTERVAL '10 seconds' -- вибирає записи за останні 10 секунд
+        diris_id IN (90, 91)
+        AND diris_time >= NOW() - INTERVAL '10 seconds'
       ORDER BY diris_time;
     `;
 
-    // Виконуємо SQL-запит та повертаємо результат
-    return await this.dataSource.query(query);
+    // Оновлюємо глобальну змінну, тепер вона типізована
+    this.cachedData = await this.dataSource.query(query);
+  }
+
+  getCachedDirisLogs(): IdirisType[] {
+    return this.cachedData;
   }
 }
-

@@ -106,8 +106,8 @@ function updateTable(logs) {
           <td class="data-cell">${logs.find(log => log.diris_id === 90)?.i3 }</td>
           <td class="data-cell">${logs.find(log => log.diris_id === 91)?.i3 }</td>
         </tr>
-        
-        
+
+
         <tr>
           <td class="legend">Міжфазна напруга А</td>
           <td class="legend">U12, В</td>
