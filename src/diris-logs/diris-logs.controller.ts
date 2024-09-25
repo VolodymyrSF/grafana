@@ -6,7 +6,8 @@ export class DirisLogsController {
   constructor(private readonly dirisLogsService: DirisLogsService) {}
 
   @Get()
-  getDirisLogs() {
+  async getDirisLogs() {
+    await this.dirisLogsService.updateDirisLogs(); // Оновлюємо дані перед отриманням
     return this.dirisLogsService.getCachedDirisLogs();
   }
 

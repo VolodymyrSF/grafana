@@ -13,6 +13,5 @@ export class DirisLogsScheduler implements OnModuleInit {
   @Interval(10000)  // кожні 10 секунд
   async updateLogs() {
     await this.dirisLogsService.updateDirisLogs();
-    console.log('Updated cache:', this.dirisLogsService.getCachedDirisLogs());
   }
 }
