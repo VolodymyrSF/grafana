@@ -5,7 +5,7 @@ import { DirisLogsService } from './diris-logs.service';
 export class DirisLogsController {
   constructor(private readonly dirisLogsService: DirisLogsService) {}
 
-  @Get() // Ендпоінт для повернення кешованих даних
+  @Get()
   getDirisLogs() {
     return this.dirisLogsService.getCachedDirisLogs();
   }

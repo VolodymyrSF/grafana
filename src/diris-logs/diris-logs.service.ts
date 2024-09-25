@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { IdirisType } from '../types/IdirisType'; // Імпортуємо новий інтерфейс
+import { IdirisType } from '../types/IdirisType';
 
 @Injectable()
 export class DirisLogsService {
-  private cachedData: IdirisType[] = [];  // Використовуємо тип DirisLog для масиву
+  private cachedData: IdirisType[] = [];
 
   constructor(private dataSource: DataSource) {}
 
@@ -31,7 +31,7 @@ export class DirisLogsService {
       ORDER BY diris_time;
     `;
 
-    // Оновлюємо глобальну змінну, тепер вона типізована
+
     this.cachedData = await this.dataSource.query(query);
   }
 
