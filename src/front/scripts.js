@@ -1,7 +1,7 @@
 // Мапінг ID на назви станцій
 const stationNames = {
-  90: 'Великий Любінь',
-  91: 'Скнилів'
+  90: 'Station1',
+  91: 'Station2'
 };
 let hostname=window.location.hostname
 
